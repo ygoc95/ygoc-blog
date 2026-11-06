@@ -1,0 +1,187 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  article?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  article = false,
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} — ${SITE.title}`
+  : `${SITE.title} — ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE.title}
+      href="/rss.xml"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#ff6600" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <script is:inline>
+      // Apply the saved theme before paint to avoid a flash of the wrong theme.
+      try {
+        const theme = localStorage.getItem('stdout:theme');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.dataset.theme = theme;
+        }
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" class="page">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import {
+        THEME_STORAGE_KEY,
+        VOTE_STORAGE_KEY,
+      } from '../consts';
+
+      /* ---------------------------------------------------------------
+         Relative timestamps, Hacker News style ("3 hours ago").
+      --------------------------------------------------------------- */
+      const relativeTime = new Intl.RelativeTimeFormat('en', {
+        numeric: 'auto',
+      });
+      const units: Array<[Intl.RelativeTimeFormatUnit, number]> = [
+        ['year', 1000 * 60 * 60 * 24 * 365],
+        ['month', 1000 * 60 * 60 * 24 * 30],
+        ['week', 1000 * 60 * 60 * 24 * 7],
+        ['day', 1000 * 60 * 60 * 24],
+        ['hour', 1000 * 60 * 60],
+        ['minute', 1000 * 60],
+      ];
+
+      document
+        .querySelectorAll<HTMLTimeElement>('time[data-relative]')
+        .forEach((el) => {
+          const date = new Date(el.dateTime);
+          if (Number.isNaN(date.getTime())) return;
+
+          const diff = date.getTime() - Date.now();
+          const abs = Math.abs(diff);
+          const absolute = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+
+          if (abs < 60_000) {
+            el.textContent = 'just now';
+            el.title = absolute;
+            return;
+          }
+
+          const [unit, ms] =
+            units.find(([, unitMs]) => abs >= unitMs) ?? units[units.length - 1];
+          el.textContent = relativeTime.format(Math.round(diff / ms), unit);
+          el.title = absolute;
+        });
+
+      /* ---------------------------------------------------------------
+         Local upvotes. No server, no account: one vote per browser.
+      --------------------------------------------------------------- */
+      function readVotes(): Record<string, number> {
+        try {
+          return JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY) ?? '{}');
+        } catch {
+          return {};
+        }
+      }
+
+      const votes = readVotes();
+
+      document.querySelectorAll<HTMLElement>('[data-post]').forEach((row) => {
+        const id = row.dataset.post;
+        const button = row.querySelector<HTMLButtonElement>('[data-upvote]');
+        const counter = row.querySelector<HTMLElement>('[data-points]');
+        if (!id || !button || !counter) return;
+
+        const base = Number(button.dataset.base ?? 0);
+
+        const paint = () => {
+          const voted = Boolean(votes[id]);
+          counter.textContent = String(base + (voted ? 1 : 0));
+          button.setAttribute('aria-pressed', String(voted));
+          button.disabled = voted;
+          button.title = voted ? 'You upvoted this' : 'Upvote';
+        };
+
+        paint();
+
+        button.addEventListener('click', () => {
+          if (votes[id]) return;
+          votes[id] = 1;
+          try {
+            localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(votes));
+          } catch {
+            /* private mode, storage full, etc. — the vote still works for this page */
+          }
+          paint();
+        });
+      });
+
+      /* ---------------------------------------------------------------
+         Theme toggle.
+      --------------------------------------------------------------- */
+      const themeToggle = document.getElementById('theme-toggle');
+
+      const paintThemeToggle = () => {
+        if (!themeToggle) return;
+        const dark = document.documentElement.dataset.theme === 'dark';
+        themeToggle.textContent = dark ? '◑' : '◐';
+        themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+        themeToggle.setAttribute(
+          'aria-label',
+          dark ? 'Switch to light mode' : 'Switch to dark mode',
+        );
+      };
+
+      paintThemeToggle();
+
+      themeToggle?.addEventListener('click', () => {
+        const dark = document.documentElement.dataset.theme === 'dark';
+        const next = dark ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, next);
+        } catch {}
+        paintThemeToggle();
+      });
+    </script>
+  </body>
+</html>

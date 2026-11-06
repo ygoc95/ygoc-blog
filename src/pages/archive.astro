@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../utils/posts';
+import { formatDate } from '../utils/posts';
+
+const posts = await getPublishedPosts();
+
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.date.getUTCFullYear();
+  const group = byYear.get(year) ?? [];
+  group.push(post);
+  byYear.set(year, group);
+}
+
+const years = [...byYear.entries()].sort((a, b) => b[0] - a[0]);
+const firstYear = posts.length ? posts[posts.length - 1].data.date.getUTCFullYear() : null;
+---
+
+<BaseLayout
+  title="Archive"
+  description="Every post on the blog, grouped by year."
+>
+  <h1 class="page-title">Archive</h1>
+  <p class="page-sub">
+    {posts.length} posts{firstYear ? ` since ${firstYear}` : ''}. Newest first.
+  </p>
+
+  {
+    years.map(([year, yearPosts]) => (
+      <section class="archive-year" aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`}>{year}</h2>
+        <ul>
+          {yearPosts.map((post) => (
+            <li>
+              <time datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date)}
+              </time>
+              <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import { SITE } from '../consts';
+
+const path = Astro.url.pathname;
+const links = [
+  { href: '/archive', label: 'archive' },
+  { href: '/tags', label: 'tags' },
+  { href: '/about', label: 'about' },
+  { href: '/rss.xml', label: 'rss' },
+];
+
+const isActive = (href: string) =>
+  path === href || (href !== '/' && path.startsWith(`${href}/`));
+---
+
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="logo" href="/" aria-label={`${SITE.title} home`}
+      ><span aria-hidden="true">&gt;_</span></a
+    >
+    <a class="site-name" href="/">{SITE.title}</a>
+    <nav class="site-nav" aria-label="Main">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="Toggle dark mode"
+      title="Toggle dark mode"
+    >◐</button>
+  </div>
+</header>

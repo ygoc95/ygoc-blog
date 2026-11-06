@@ -1,0 +1,91 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../consts';
+import {
+  formatDate,
+  getPublishedPosts,
+  readingTime,
+  slugify,
+  type Post,
+} from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+
+  return posts.map((post, index) => ({
+    params: { id: post.id },
+    props: {
+      post,
+      newer: posts[index - 1] ?? null,
+      older: posts[index + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer: Post | null;
+  older: Post | null;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, tags } = post.data;
+const minutes = readingTime(post.body);
+
+const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent(`Re: ${title}`)}`;
+---
+
+<BaseLayout title={title} description={description} article>
+  <article class="post">
+    <header class="post-header">
+      <h1>{title}</h1>
+      <p class="post-meta post-meta--article">
+        <time datetime={date.toISOString()} data-relative>
+          {formatDate(date)}
+        </time>
+        <span class="sep">|</span>
+        <span>{minutes} min read</span>
+        <span class="sep">|</span>
+        <span>by {SITE.author}</span>
+      </p>
+      {
+        tags.length > 0 && (
+          <p class="post-tags">
+            {tags.map((tag) => (
+              <a href={`/tags/${slugify(tag)}/`}>#{tag}</a>
+            ))}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="post-body">
+      <Content />
+    </div>
+
+    <p class="discuss">
+      Thoughts, corrections, or a better idea? <a href={mailto}>Send me an email</a>.
+    </p>
+
+    <nav class="post-nav" aria-label="More posts">
+      {
+        newer && (
+          <a href={`/posts/${newer.id}/`}>
+            <span class="label">← Newer</span>
+            {newer.data.title}
+          </a>
+        )
+      }
+      {
+        older && (
+          <a class="next" href={`/posts/${older.id}/`}>
+            <span class="label">Older →</span>
+            {older.data.title}
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>
