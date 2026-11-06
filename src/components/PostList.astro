@@ -16,7 +16,7 @@ const { posts, start = 1 } = Astro.props;
     posts.map((post, index) => {
       const tag = post.data.tags[0];
       return (
-        <article class="post-row" data-post={post.id}>
+        <article class="post-row">
           <div class="rank" aria-hidden="true">
             {start + index}.
           </div>
@@ -32,21 +32,7 @@ const { posts, start = 1 } = Astro.props;
               )}
             </h2>
             <p class="post-meta">
-              <button
-                class="upvote"
-                type="button"
-                data-upvote
-                data-base={post.data.points}
-                aria-pressed="false"
-                aria-label={`Upvote ${post.data.title}`}
-                title="Upvote"
-              >
-                ▲
-              </button>
-              <span>
-                <span data-points>{post.data.points}</span> points
-              </span>
-              <span class="sep">by</span>
+              <span>by</span>
               <span>{SITE.author}</span>
               <span class="sep">|</span>
               <time datetime={post.data.date.toISOString()} data-relative>

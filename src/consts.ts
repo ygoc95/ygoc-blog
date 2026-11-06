@@ -15,6 +15,5 @@ export const SITE = {
   url: 'https://example.com',
 } as const;
 
-/** Seed value for the front-page "points" counter. Upvotes are stored locally. */
-export const VOTE_STORAGE_KEY = 'stdout:votes';
+/** localStorage key for the saved light/dark preference. */
 export const THEME_STORAGE_KEY = 'stdout:theme';

@@ -3,7 +3,6 @@ title: Commit messages are documentation
 description: A diff shows what changed. The message explains why. Six months from now, only one of those will save you.
 date: 2026-08-12
 tags: [git, craft]
-points: 96
 ---
 
 The most useful documentation in a repository is `git log`, and it is usually empty.

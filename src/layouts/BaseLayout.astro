@@ -38,7 +38,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
       href="/rss.xml"
     />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#ff6600" />
+    <meta name="theme-color" content="#123c3a" />
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -66,10 +66,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
     <Footer />
 
     <script>
-      import {
-        THEME_STORAGE_KEY,
-        VOTE_STORAGE_KEY,
-      } from '../consts';
+      import { THEME_STORAGE_KEY } from '../consts';
 
       /* ---------------------------------------------------------------
          Relative timestamps, Hacker News style ("3 hours ago").
@@ -111,49 +108,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
           el.textContent = relativeTime.format(Math.round(diff / ms), unit);
           el.title = absolute;
         });
-
-      /* ---------------------------------------------------------------
-         Local upvotes. No server, no account: one vote per browser.
-      --------------------------------------------------------------- */
-      function readVotes(): Record<string, number> {
-        try {
-          return JSON.parse(localStorage.getItem(VOTE_STORAGE_KEY) ?? '{}');
-        } catch {
-          return {};
-        }
-      }
-
-      const votes = readVotes();
-
-      document.querySelectorAll<HTMLElement>('[data-post]').forEach((row) => {
-        const id = row.dataset.post;
-        const button = row.querySelector<HTMLButtonElement>('[data-upvote]');
-        const counter = row.querySelector<HTMLElement>('[data-points]');
-        if (!id || !button || !counter) return;
-
-        const base = Number(button.dataset.base ?? 0);
-
-        const paint = () => {
-          const voted = Boolean(votes[id]);
-          counter.textContent = String(base + (voted ? 1 : 0));
-          button.setAttribute('aria-pressed', String(voted));
-          button.disabled = voted;
-          button.title = voted ? 'You upvoted this' : 'Upvote';
-        };
-
-        paint();
-
-        button.addEventListener('click', () => {
-          if (votes[id]) return;
-          votes[id] = 1;
-          try {
-            localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(votes));
-          } catch {
-            /* private mode, storage full, etc. — the vote still works for this page */
-          }
-          paint();
-        });
-      });
 
       /* ---------------------------------------------------------------
          Theme toggle.

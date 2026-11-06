@@ -10,8 +10,6 @@ const posts = defineCollection({
     description: z.string().max(300),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    /** Static baseline for the front-page points counter (local upvotes add 1). */
-    points: z.number().int().nonnegative().default(0),
     draft: z.boolean().default(false),
   }),
 });

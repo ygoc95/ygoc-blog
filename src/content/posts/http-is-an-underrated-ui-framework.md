@@ -3,7 +3,6 @@ title: HTTP is an underrated UI framework
 description: Links navigate. Forms mutate. The URL holds the state. The browser has been doing this for decades, and it is still very good at it.
 date: 2026-06-03
 tags: [web, design]
-points: 61
 ---
 
 Hacker News is a masterclass in interface design that nobody calls interface design.

@@ -3,7 +3,6 @@ title: Read the error message
 description: The bug had been open for two days. The error message said exactly what was wrong.
 date: 2026-09-30
 tags: [debugging, craft]
-points: 153
 ---
 
 A few years ago I watched a team lose two days to a bug that was described, in plain English, on the first line of the log.

@@ -3,7 +3,6 @@ title: Why this blog is just HTML
 description: I have rebuilt this site more times than I have published posts. This version has the fewest moving parts, and that is the point.
 date: 2026-11-04
 tags: [meta, web]
-points: 84
 ---
 
 I have rebuilt this site more times than I have published posts on it. Rails, a Next.js app with a database, a Gatsby phase I would rather not discuss. Each version had a dashboard, a deploy pipeline, and a growing pile of dependencies. Each version also had a bug that stopped me from writing.
@@ -34,9 +33,9 @@ That's the entire CMS. Adding a post means adding a file. Deleting a post means 
 
 ## Speed is a feature
 
-The design is borrowed shamelessly from Hacker News: a thin orange header, ten-pixel type, dense rows, and links that look like links. HN is not beautiful in the way a design portfolio is beautiful. It is beautiful in the way a well-made tool is beautiful. It loads instantly and gets out of the way.
+The design is borrowed shamelessly from Hacker News: a thin teal header, small type, dense rows, and links that look like links. HN is not beautiful in the way a design portfolio is beautiful. It is beautiful in the way a well-made tool is beautiful. It loads instantly and gets out of the way.
 
-I wanted the same thing. The pages are pre-rendered HTML with a little CSS. The only JavaScript is a couple of kilobytes for relative timestamps, local upvotes, and a dark mode toggle. Reading this site does not require JavaScript at all.
+I wanted the same thing. The pages are pre-rendered HTML with a little CSS. The only JavaScript is a couple of kilobytes for relative timestamps and a dark mode toggle. Reading this site does not require JavaScript at all.
 
 That last part matters to me. I refuse to ship a framework to render a paragraph.
 
@@ -53,7 +52,7 @@ Static files can be hosted for free almost anywhere. If the host disappears, the
 
 ## What I gave up
 
-Honesty requires a list. There are no comments, no likes, and no view counts. Search is just the archive page and your browser's find-in-page. The little ▲ buttons are local-only; they do not tell me anything, and they never will.
+Honesty requires a list. There are no comments, no likes, no points, and no view counts. Search is just the archive page and your browser's find-in-page. If you want to tell me something, you have to write an actual email.
 
 I considered adding a comment system for about ten minutes. Then I remembered that moderating comments is a second job, and that the best conversations about my writing happen over email anyway.
 

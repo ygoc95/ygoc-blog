@@ -1,8 +1,8 @@
 # stdout
 
 A small personal blog with the density and attitude of Hacker News. Plain
-Markdown in, static HTML out, a handful of kilobytes of JavaScript for local
-upvotes, relative timestamps, and the dark-mode toggle.
+Markdown in, static HTML out, a handful of kilobytes of JavaScript for relative
+timestamps and the dark-mode toggle.
 
 The name is a placeholder. Everything is set up so you can rename the site
 without hunting through templates.
@@ -57,7 +57,6 @@ title: The title shown on the site
 description: One sentence for the list, RSS, and social previews.
 date: 2026-11-04
 tags: [engineering, craft]
-points: 42
 draft: false
 ---
 
@@ -71,7 +70,6 @@ blockquotes all work.
 | `description` | yes      | Max 300 characters                                |
 | `date`        | yes      | `YYYY-MM-DD`; used for sorting and relative time  |
 | `tags`        | no       | Defaults to `[]`; each tag gets an archive page   |
-| `points`      | no       | Seed score for the local ▲ counter, default `0`   |
 | `draft`       | no       | `true` hides the post from lists, RSS, and builds |
 
 Reading time is calculated from the post body, excluding fenced code blocks.
@@ -98,13 +96,14 @@ public/             Favicon and robots.txt
 2. **Domain** — update `site` in `astro.config.mjs`, plus the sitemap URL in
    `public/robots.txt`. Keep the URL in `src/consts.ts` in sync.
 3. **Favicon** — replace `public/favicon.svg`.
-4. **Colors and type** — the palette and font stacks live at the top of
-   `src/styles/global.css`.
+4. **Colors and type** — the deep-teal/warm-paper palette and font stacks live
+   at the top of `src/styles/global.css`. Change the custom properties there to
+   re-theme both light and dark modes.
 5. **Posts** — replace the five sample essays in `src/content/posts/` with your
    own. Delete them all and the front page shows an empty-state message.
-6. **Storage keys** — if you rename the site, you can also change
-   `VOTE_STORAGE_KEY` and `THEME_STORAGE_KEY` in `src/consts.ts`. This only resets
-   visitors' saved theme and local votes.
+6. **Theme storage** — if you rename the site, you can also change
+   `THEME_STORAGE_KEY` in `src/consts.ts`. This only resets visitors' saved theme
+   preference.
 
 ## Deploy
 
@@ -123,9 +122,8 @@ the RSS feed, and the sitemap point at the right place.
 
 ## How the small stuff works
 
-- **Upvotes** are cosmetic and local to each browser. Clicking ▲ adds one point
-  and stores the post slug in `localStorage`. There is no server and no shared
-  count.
+- **No engagement counters.** Posts have no points, likes, or comments, and the
+  front page is ordered by date rather than popularity.
 - **Relative dates** ("2 days ago") are rendered by a tiny script. With
   JavaScript disabled, the absolute date is still visible.
 - **Dark mode** is a `data-theme` attribute on `<html>`, saved in

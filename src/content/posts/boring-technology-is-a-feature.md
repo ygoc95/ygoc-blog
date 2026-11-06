@@ -3,7 +3,6 @@ title: Boring technology is a feature
 description: Every dependency is a subscription to someone else's decisions. Spend your complexity budget where it actually buys something.
 date: 2026-10-21
 tags: [engineering, craft]
-points: 217
 ---
 
 The most reliable service I ever ran was a cron job.
