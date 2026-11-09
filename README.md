@@ -98,8 +98,9 @@ public/             Favicon and robots.txt
 5. **Colors and type** — the dark/light palettes and font stacks live at the top
    of `src/styles/global.css`. Change the custom properties there to re-theme
    both modes.
-6. **Posts** — replace the five sample essays in `src/content/posts/` with your
-   own. Delete them all and the front page shows an empty-state message.
+6. **Posts** — add your `.md` files to `src/content/posts/`. The folder starts
+   empty, and the front page shows an empty-state message until the first post
+   is added.
 7. **Theme storage** — if you rename the site, you can also change
    `THEME_STORAGE_KEY` in `src/consts.ts`. This only resets visitors' saved theme
    preference.
