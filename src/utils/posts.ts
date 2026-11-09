@@ -18,18 +18,10 @@ export function readingTime(body: string | undefined): number {
   return Math.max(1, Math.round(words / 200));
 }
 
-/** Absolute, human-readable date. Rendered as relative time by a tiny script. */
+/** Absolute, human-readable date. */
 export function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC',
-  }).format(date);
-}
-
-export function shortDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
     timeZone: 'UTC',

@@ -9,16 +9,15 @@ import { SITE } from '../consts';
 >
   <article class="post">
     <header class="post-header">
-      <h1>About</h1>
+      <p class="post-kicker">About</p>
+      <h1>Hi, I'm {SITE.author}.</h1>
+      <p class="post-lede">
+        I'm a software engineer, and this is where I write about code, systems,
+        and the craft of building things.
+      </p>
     </header>
 
     <div class="post-body">
-      <p>
-        Hi, I'm {SITE.author}. This is where I write about software, systems, and
-        the craft of building things — the sort of thing I'd want to read on a
-        slow afternoon.
-      </p>
-
       <p>
         I'm less interested in hot takes than in ideas that survive contact with
         a real codebase. Expect notes on debugging, boring architecture, small
@@ -34,20 +33,17 @@ import { SITE } from '../consts';
 
       <h2>About the site</h2>
       <p>
-        The layout is a deliberate nod to <a href="https://news.ycombinator.com"
-          >Hacker News</a
-        >: small type, dense lists, and nothing that gets in the way of reading.
-        The palette is calmer — deep teal and warm paper. Under the hood it's
-        <a href="https://astro.build">Astro</a> and Markdown compiled to plain
-        HTML. There is no database, no analytics, and no cookie banner.
-      </p>
-
-      <h2>Elsewhere</h2>
-      <p>
-        Find me on <a href={SITE.github} rel="me">GitHub</a>, or
-        <a href={`mailto:${SITE.email}`}>send me an email</a>. You can also
-        subscribe via <a href="/rss.xml">RSS</a>.
+        A small personal blog should feel like a place to read, not a product to
+        navigate. This one keeps things quiet: one column, dark by default,
+        monospace details, and no comments, analytics, or cookie banner. It is
+        built with <a href="https://astro.build">Astro</a> and Markdown, and
+        compiled to plain HTML.
       </p>
     </div>
+
+    <p class="post-footnote">
+      Elsewhere: <a href={SITE.github} rel="me">GitHub</a> ·
+      <a href="/rss.xml">RSS</a>
+    </p>
   </article>
 </BaseLayout>

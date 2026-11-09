@@ -3,17 +3,18 @@
 // ---------------------------------------------------------------------------
 export const SITE = {
   /** Shown in the header, page titles and RSS. */
-  title: 'stdout',
+  title: 'Yiğit Selçuk Göç',
   /** One line that explains the blog. */
-  tagline: 'Notes on software, systems, and the craft of building things.',
+  tagline:
+    'Software engineer. Notes on code, systems, and the craft of building things.',
   description:
-    'A personal blog about software, systems, and the craft of building things. Short reads, no trackers, no popups.',
-  author: 'Yigit',
-  email: 'hello@example.com',
+    'The personal blog of Yiğit Selçuk Göç: notes on software, systems, and the craft of building things.',
+  author: 'Yiğit Selçuk Göç',
+  /** TODO: replace with your GitHub profile. */
   github: 'https://github.com/yourhandle',
   /** Used for canonical URLs. Keep this in sync with astro.config.mjs. */
   url: 'https://example.com',
 } as const;
 
 /** localStorage key for the saved light/dark preference. */
-export const THEME_STORAGE_KEY = 'stdout:theme';
+export const THEME_STORAGE_KEY = 'ysg:theme';

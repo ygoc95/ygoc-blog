@@ -6,14 +6,11 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="page footer-inner">
-    <p>
-      © {year} {SITE.author} · <a href="/rss.xml">RSS</a> ·
-      <a href={SITE.github} rel="me">GitHub</a> ·
-      <a href={`mailto:${SITE.email}`}>Email</a>
-    </p>
-    <p class="footer-note">
-      Built with <a href="https://astro.build">Astro</a>. No trackers, no
-      cookies, no popups.
+    <p>© {year} {SITE.author}</p>
+    <p class="footer-links">
+      <a href={SITE.github} rel="me">GitHub</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="/rss.xml">RSS</a>
     </p>
   </div>
 </footer>

@@ -23,7 +23,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,7 +38,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
       href="/rss.xml"
     />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#123c3a" />
+    <meta name="theme-color" content="#0b0f0e" />
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -48,9 +48,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <script is:inline>
-      // Apply the saved theme before paint to avoid a flash of the wrong theme.
+      // Dark is the default. Apply a saved light preference before first paint.
       try {
-        const theme = localStorage.getItem('stdout:theme');
+        const theme = localStorage.getItem('ysg:theme');
         if (theme === 'light' || theme === 'dark') {
           document.documentElement.dataset.theme = theme;
         }
@@ -68,56 +68,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
     <script>
       import { THEME_STORAGE_KEY } from '../consts';
 
-      /* ---------------------------------------------------------------
-         Relative timestamps, Hacker News style ("3 hours ago").
-      --------------------------------------------------------------- */
-      const relativeTime = new Intl.RelativeTimeFormat('en', {
-        numeric: 'auto',
-      });
-      const units: Array<[Intl.RelativeTimeFormatUnit, number]> = [
-        ['year', 1000 * 60 * 60 * 24 * 365],
-        ['month', 1000 * 60 * 60 * 24 * 30],
-        ['week', 1000 * 60 * 60 * 24 * 7],
-        ['day', 1000 * 60 * 60 * 24],
-        ['hour', 1000 * 60 * 60],
-        ['minute', 1000 * 60],
-      ];
-
-      document
-        .querySelectorAll<HTMLTimeElement>('time[data-relative]')
-        .forEach((el) => {
-          const date = new Date(el.dateTime);
-          if (Number.isNaN(date.getTime())) return;
-
-          const diff = date.getTime() - Date.now();
-          const abs = Math.abs(diff);
-          const absolute = date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          });
-
-          if (abs < 60_000) {
-            el.textContent = 'just now';
-            el.title = absolute;
-            return;
-          }
-
-          const [unit, ms] =
-            units.find(([, unitMs]) => abs >= unitMs) ?? units[units.length - 1];
-          el.textContent = relativeTime.format(Math.round(diff / ms), unit);
-          el.title = absolute;
-        });
-
-      /* ---------------------------------------------------------------
-         Theme toggle.
-      --------------------------------------------------------------- */
       const themeToggle = document.getElementById('theme-toggle');
 
       const paintThemeToggle = () => {
         if (!themeToggle) return;
         const dark = document.documentElement.dataset.theme === 'dark';
-        themeToggle.textContent = dark ? '◑' : '◐';
+        themeToggle.textContent = dark ? 'light' : 'dark';
         themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
         themeToggle.setAttribute(
           'aria-label',

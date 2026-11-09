@@ -8,11 +8,8 @@ const posts = await getPublishedPosts();
 ---
 
 <BaseLayout>
-  <h1 class="sr-only">Latest posts</h1>
-  <p class="intro">
-    {SITE.tagline}{' '}
-    <em>Updated when there's something worth saying.</em>
-  </p>
+  <h1 class="sr-only">Writing</h1>
+  <p class="intro">{SITE.tagline}</p>
 
   {
     posts.length > 0 ? (
@@ -23,10 +20,7 @@ const posts = await getPublishedPosts();
   }
 
   <div class="list-footer">
-    <a href="/archive">More</a>
-    <span class="sep">·</span>
-    <a href="/tags">Browse by tag</a>
-    <span class="sep">·</span>
+    <a href="/archive">All posts →</a>
     <a href="/rss.xml">RSS</a>
   </div>
 </BaseLayout>

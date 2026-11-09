@@ -33,9 +33,9 @@ That's the entire CMS. Adding a post means adding a file. Deleting a post means 
 
 ## Speed is a feature
 
-The design is borrowed shamelessly from Hacker News: a thin teal header, small type, dense rows, and links that look like links. HN is not beautiful in the way a design portfolio is beautiful. It is beautiful in the way a well-made tool is beautiful. It loads instantly and gets out of the way.
+The design is deliberately quiet: one column, generous spacing, monospace details, and links that look like links. It is not trying to be a product. It is trying to be a place to read. It loads instantly and gets out of the way.
 
-I wanted the same thing. The pages are pre-rendered HTML with a little CSS. The only JavaScript is a couple of kilobytes for relative timestamps and a dark mode toggle. Reading this site does not require JavaScript at all.
+The pages are pre-rendered HTML with a little CSS. The only JavaScript is a small theme switch. Reading this site does not require JavaScript at all.
 
 That last part matters to me. I refuse to ship a framework to render a paragraph.
 
@@ -52,9 +52,9 @@ Static files can be hosted for free almost anywhere. If the host disappears, the
 
 ## What I gave up
 
-Honesty requires a list. There are no comments, no likes, no points, and no view counts. Search is just the archive page and your browser's find-in-page. If you want to tell me something, you have to write an actual email.
+Honesty requires a list. There are no comments, no likes, no points, and no view counts. Search is just the archive page and your browser's find-in-page. If you want to tell me something, open an issue on GitHub.
 
-I considered adding a comment system for about ten minutes. Then I remembered that moderating comments is a second job, and that the best conversations about my writing happen over email anyway.
+I considered adding a comment system for about ten minutes. Then I remembered that moderating comments is a second job, and that the best conversations about my writing happen in issues and pull requests anyway.
 
 ## The real lesson
 
