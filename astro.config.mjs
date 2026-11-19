@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // The custom domain serves the site from the root, so no base path is needed.
 export default defineConfig({
-  site: 'https://ygoc-blog.dev',
+  site: 'https://www.ygoc-blog.dev',
   integrations: [sitemap()],
   markdown: {
     shikiConfig: {

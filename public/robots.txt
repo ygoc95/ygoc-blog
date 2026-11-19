@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap for the deployed site.
-Sitemap: https://ygoc-blog.dev/sitemap-index.xml
+Sitemap: https://www.ygoc-blog.dev/sitemap-index.xml

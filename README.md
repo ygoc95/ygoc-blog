@@ -4,7 +4,7 @@ A quiet, text-first personal blog: plain Markdown in, static HTML out. Dark by
 default, with a small switch for a warm light theme. No UI framework, no
 database, no analytics, no cookie banner.
 
-Live at <https://ygoc-blog.dev/>.
+Live at <https://www.ygoc-blog.dev/>.
 
 ## Stack
 
@@ -112,7 +112,7 @@ public/             Favicon, robots.txt, and post images
 ## Deploy
 
 Pushing to `main` builds and deploys the site with GitHub Actions to
-<https://ygoc-blog.dev/>.
+<https://www.ygoc-blog.dev/>.
 
 The workflow is `.github/workflows/deploy.yml`. It runs on every push to `main`
 (or manually from the Actions tab), builds with Node 24, and publishes `dist/`
@@ -128,9 +128,9 @@ npm run preview
 
 ### Custom domain
 
-The site is served at <https://ygoc-blog.dev/>. The apex domain is the GitHub
-Pages custom domain, and `www` is a CNAME record pointing to
-`ygoc95.github.io`; GitHub redirects `www` to the apex.
+The site is served at <https://www.ygoc-blog.dev/>. `www` is the GitHub Pages
+custom domain and a CNAME record pointing to `ygoc95.github.io`; GitHub
+redirects the apex to `www`.
 
 A custom domain serves the site from the root, so `astro.config.mjs` has no
 `base`. Canonical URLs come from `site` there and `SITE.url` in

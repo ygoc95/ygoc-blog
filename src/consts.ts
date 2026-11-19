@@ -8,7 +8,7 @@ export const SITE = {
   author: 'Yiğit Selçuk Göç',
   github: 'https://github.com/ygoc95',
   /** Canonical site URL. */
-  url: 'https://ygoc-blog.dev',
+  url: 'https://www.ygoc-blog.dev',
 } as const;
 
 /** localStorage key for the saved light/dark preference. */
