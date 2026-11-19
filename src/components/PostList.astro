@@ -1,6 +1,7 @@
 ---
 import type { Post } from '../utils/posts';
 import { formatDate, readingTime, slugify } from '../utils/posts';
+import { withBase } from '../utils/url';
 
 interface Props {
   posts: Post[];
@@ -21,7 +22,7 @@ const { posts } = Astro.props;
           <span>{readingTime(post.body)} min read</span>
         </p>
         <h2 class="post-title">
-          <a class="title" href={`/posts/${post.id}/`}>
+          <a class="title" href={withBase(`/posts/${post.id}/`)}>
             {post.data.title}
           </a>
         </h2>
@@ -29,7 +30,7 @@ const { posts } = Astro.props;
         {post.data.tags.length > 0 && (
           <p class="post-tags">
             {post.data.tags.map((tag) => (
-              <a href={`/tags/${slugify(tag)}/`}>#{tag}</a>
+              <a href={withBase(`/tags/${slugify(tag)}/`)}>#{tag}</a>
             ))}
           </p>
         )}

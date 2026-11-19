@@ -2,25 +2,29 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { getPublishedPosts } from '../utils/posts';
-import { SITE } from '../consts';
+import { withBase } from '../utils/url';
 
 const posts = await getPublishedPosts();
 ---
 
 <BaseLayout>
   <h1 class="sr-only">Writing</h1>
-  <p class="intro">{SITE.tagline}</p>
 
-  {
-    posts.length > 0 ? (
-      <PostList posts={posts} />
-    ) : (
-      <p class="page-sub">Nothing here yet. The first post is being written.</p>
-    )
-  }
+  <div class="home-post-list">
+    {
+      posts.length > 0 ? (
+        <PostList posts={posts} />
+      ) : (
+        <p class="page-sub">Nothing here yet. The first post is being written.</p>
+      )
+    }
+  </div>
 
   <div class="list-footer">
-    <a href="/archive">All posts →</a>
-    <a href="/rss.xml">RSS</a>
+    <a href={withBase('/archive')}>All posts →</a>
   </div>
+
+  <p class="disclosure">
+    Disclosure: All posts are written by me. I use AI tools for grammar checks.
+  </p>
 </BaseLayout>

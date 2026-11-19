@@ -1,15 +1,17 @@
-# Yiğit Selçuk Göç
+# ygoc-blog
 
 A quiet, text-first personal blog: plain Markdown in, static HTML out. Dark by
 default, with a small switch for a warm light theme. No UI framework, no
 database, no analytics, no cookie banner.
+
+Live at <https://ygoc95.github.io/ygoc-blog/>.
 
 ## Stack
 
 - [Astro](https://astro.build) static site generation
 - Markdown content collections with typed frontmatter (Zod)
 - One hand-written stylesheet, no UI framework
-- RSS feed and sitemap generated at build time
+- Sitemap generated at build time
 - A few lines of JavaScript for the light/dark switch
 
 ## Requirements
@@ -34,7 +36,8 @@ npm install
 npm run dev
 ```
 
-The dev server prints a local URL, usually <http://localhost:4321>.
+The dev server prints a local URL. This project uses the GitHub Pages base path,
+so open <http://localhost:4321/ygoc-blog/>.
 
 | Command           | What it does                                  |
 | ----------------- | --------------------------------------------- |
@@ -51,7 +54,7 @@ Create a `.md` file in `src/content/posts/`. The filename becomes the URL slug
 ```md
 ---
 title: The title shown on the site
-description: One sentence for the list, RSS, and social previews.
+description: One sentence for the list and social previews.
 date: 2026-11-04
 tags: [engineering, craft]
 draft: false
@@ -67,10 +70,14 @@ blockquotes all work.
 | `description` | yes      | Max 300 characters; shown under the title         |
 | `date`        | yes      | `YYYY-MM-DD`; used for sorting and the archive    |
 | `tags`        | no       | Defaults to `[]`; each tag gets an archive page   |
-| `draft`       | no       | `true` hides the post from lists, RSS, and builds |
+| `draft`       | no       | `true` hides the post from lists and builds       |
 
 Reading time is calculated from the post body, excluding fenced code blocks.
-Drafts are filtered out everywhere, including tag pages and the feed.
+Drafts are filtered out everywhere, including tag and archive pages.
+
+Images in a post can live in `public/images/` and be referenced with a
+root-relative path such as `/images/example.png`. The Markdown pipeline adds
+the deployment base path automatically.
 
 ## Project structure
 
@@ -79,46 +86,70 @@ src/
   components/       Header, footer, and the post list
   content/posts/    Markdown posts
   layouts/          Shared document shell, metadata, and theme switch
-  pages/            Routes: home, archive, tags, about, 404, RSS
+  pages/            Routes: home, archive, tags, 404
   styles/           The entire visual design
-  utils/            Post queries, dates, tags, reading time
-  consts.ts         Site name, tagline, author, GitHub, canonical URL
-public/             Favicon and robots.txt
+  utils/            Post queries and base-path helpers
+  consts.ts         Site name, description, author, GitHub, canonical URL
+public/             Favicon, robots.txt, and post images
+.github/workflows/  GitHub Pages deployment
 ```
 
 ## Make it yours
 
-1. **Branding** — edit `src/consts.ts`. That controls the header name, tagline,
-   author, GitHub link, and canonical URL.
-2. **Domain** — update `site` in `astro.config.mjs`, plus the sitemap URL in
-   `public/robots.txt`. Keep the URL in `src/consts.ts` in sync.
-3. **GitHub** — replace the `github` placeholder in `src/consts.ts` with your
-   profile URL.
+1. **Branding** — edit `src/consts.ts`. That controls the header name,
+   description, author, GitHub link, and canonical URL.
+2. **Deployment URL** — `site` and `base` in `astro.config.mjs` control the
+   GitHub Pages path. If you attach a custom domain, see
+   [Custom domain](#custom-domain).
+3. **GitHub** — set your profile URL in `src/consts.ts` (`SITE.github`).
 4. **Favicon** — replace `public/favicon.svg`.
 5. **Colors and type** — the dark/light palettes and font stacks live at the top
    of `src/styles/global.css`. Change the custom properties there to re-theme
    both modes.
-6. **Posts** — add your `.md` files to `src/content/posts/`. The folder starts
-   empty, and the front page shows an empty-state message until the first post
-   is added.
+6. **Posts** — add your `.md` files to `src/content/posts/`. The front page shows
+   an empty-state message if you remove every post.
 7. **Theme storage** — if you rename the site, you can also change
    `THEME_STORAGE_KEY` in `src/consts.ts`. This only resets visitors' saved theme
    preference.
 
 ## Deploy
 
-The build output is plain static files, so any static host works. Run:
+Pushing to `main` builds and deploys the site with GitHub Actions to
+<https://ygoc95.github.io/ygoc-blog/>.
+
+The workflow is `.github/workflows/deploy.yml`. It runs on every push to `main`
+(or manually from the Actions tab), builds with Node 24, and publishes `dist/`
+with `actions/deploy-pages`. The repository's Pages source is set to **GitHub
+Actions**; no `gh-pages` branch is used.
+
+For a local production build:
 
 ```sh
 npm run build
+npm run preview
 ```
 
-Then publish `dist/`. On Netlify, Vercel, or Cloudflare Pages, use `npm run
-build` as the build command and `dist` as the output directory. No adapter or
-server runtime is needed.
+### Custom domain
 
-Set the real domain in `astro.config.mjs` before deploying so canonical URLs,
-the RSS feed, and the sitemap point at the right place.
+Yes. GitHub Pages supports a custom domain on top of a project site:
+
+1. In the repository, open **Settings → Pages → Custom domain**, enter the
+   domain, and save.
+2. At your DNS provider:
+   - Apex domain (`example.com`): add the A and AAAA records from GitHub's
+     [custom domain documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
+   - Subdomain (`blog.example.com` or `www.example.com`): add a CNAME record
+     pointing to `ygoc95.github.io`.
+3. Wait for the DNS check, then enable **Enforce HTTPS**. GitHub provisions the
+   certificate automatically.
+4. A custom domain serves the site from the root. Remove `base` from
+   `astro.config.mjs`, set `site` to `https://your-domain.example`, set
+   `SITE.url` in `src/consts.ts` to the same URL, and update the sitemap URL in
+   `public/robots.txt`. Push to `main` again.
+
+The `ygoc95.github.io/ygoc-blog/` URL will redirect to the custom domain. No
+`CNAME` file is needed with a GitHub Actions deployment; GitHub stores the
+custom domain in the Pages settings.
 
 ## How the small stuff works
 
@@ -129,8 +160,7 @@ the RSS feed, and the sitemap point at the right place.
   counts. The front page is ordered by date.
 - **Code highlighting** uses Shiki with separate light and dark themes, switched
   by CSS rather than a rebuild.
-- **No email.** The only external contact link is GitHub, in the footer and on
-  the about page.
+- **No email.** The only external contact link is GitHub, in the footer.
 
 ## License
 

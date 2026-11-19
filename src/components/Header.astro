@@ -1,12 +1,11 @@
 ---
 import { SITE } from '../consts';
+import { withBase, withoutBase } from '../utils/url';
 
-const path = Astro.url.pathname;
+const path = withoutBase(Astro.url.pathname);
 const links = [
   { href: '/archive', label: 'archive' },
   { href: '/tags', label: 'tags' },
-  { href: '/about', label: 'about' },
-  { href: '/rss.xml', label: 'rss' },
 ];
 
 const isActive = (href: string) =>
@@ -15,12 +14,22 @@ const isActive = (href: string) =>
 
 <header class="site-header">
   <div class="page header-inner">
-    <a class="site-name" href="/">{SITE.title}</a>
+    <a class="site-name" href={withBase('/')}>
+      <img
+        class="site-avatar"
+        src={withBase('/images/old-cat.jpg')}
+        alt=""
+        width="36"
+        height="36"
+        decoding="async"
+      />
+      <span>{SITE.title}</span>
+    </a>
     <nav class="site-nav" aria-label="Main">
       {
         links.map((link) => (
           <a
-            href={link.href}
+            href={withBase(link.href)}
             aria-current={isActive(link.href) ? 'page' : undefined}
           >
             {link.label}

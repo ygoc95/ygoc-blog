@@ -125,6 +125,9 @@ a {
 }
 
 .site-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   color: var(--text);
   font-family: var(--font-mono);
   font-size: 13.5px;
@@ -136,6 +139,19 @@ a {
 
 .site-name:hover {
   color: var(--accent);
+}
+
+.site-avatar {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+}
+
+.site-name:hover .site-avatar {
+  border-color: var(--accent);
 }
 
 .site-nav {
@@ -181,13 +197,8 @@ a {
 
 /* --- Home --------------------------------------------------------------- */
 
-.intro {
-  max-width: 58ch;
-  margin: 52px 0 44px;
-  color: var(--text);
-  font-size: 17px;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+.home-post-list {
+  margin-top: 52px;
 }
 
 .post-list {
@@ -253,16 +264,12 @@ a {
   color: var(--accent);
 }
 
-.sep {
-  color: var(--faint);
-}
-
 .list-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 26px 0 72px;
+  padding: 26px 0 20px;
   font-family: var(--font-mono);
   font-size: 11.5px;
 }
@@ -274,6 +281,15 @@ a {
 
 .list-footer a:hover {
   color: var(--accent);
+}
+
+.disclosure {
+  max-width: 62ch;
+  margin: 0 0 72px;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.7;
 }
 
 /* --- Shared page headings ---------------------------------------------- */
@@ -694,9 +710,8 @@ a {
     margin-left: auto;
   }
 
-  .intro {
-    margin: 36px 0 30px;
-    font-size: 16px;
+  .home-post-list {
+    margin-top: 36px;
   }
 
   .post-row {

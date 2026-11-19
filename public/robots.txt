@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# TODO: replace with your domain after deploying.
-Sitemap: https://example.com/sitemap-index.xml
+# Sitemap for the deployed GitHub Pages site.
+Sitemap: https://ygoc95.github.io/ygoc-blog/sitemap-index.xml

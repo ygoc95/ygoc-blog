@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../utils/posts';
 import { formatDate } from '../utils/posts';
+import { withBase } from '../utils/url';
 
 const posts = await getPublishedPosts();
 
@@ -36,7 +37,7 @@ const firstYear = posts.length ? posts[posts.length - 1].data.date.getUTCFullYea
               <time datetime={post.data.date.toISOString()}>
                 {formatDate(post.data.date)}
               </time>
-              <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+              <a href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>
             </li>
           ))}
         </ul>

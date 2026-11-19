@@ -9,6 +9,7 @@ import {
   slugify,
   type Post,
 } from '../../utils/posts';
+import { withBase } from '../../utils/url';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -49,7 +50,7 @@ const minutes = readingTime(post.body);
         tags.length > 0 && (
           <p class="post-tags">
             {tags.map((tag) => (
-              <a href={`/tags/${slugify(tag)}/`}>#{tag}</a>
+              <a href={withBase(`/tags/${slugify(tag)}/`)}>#{tag}</a>
             ))}
           </p>
         )
@@ -68,7 +69,7 @@ const minutes = readingTime(post.body);
     <nav class="post-nav" aria-label="More posts">
       {
         newer && (
-          <a href={`/posts/${newer.id}/`}>
+          <a href={withBase(`/posts/${newer.id}/`)}>
             <span class="label">← Newer</span>
             {newer.data.title}
           </a>
@@ -76,7 +77,7 @@ const minutes = readingTime(post.body);
       }
       {
         older && (
-          <a class="next" href={`/posts/${older.id}/`}>
+          <a class="next" href={withBase(`/posts/${older.id}/`)}>
             <span class="label">Older →</span>
             {older.data.title}
           </a>

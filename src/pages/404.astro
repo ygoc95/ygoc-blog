@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../utils/url';
 ---
 
 <BaseLayout title="404" description="This page does not exist.">
@@ -11,7 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       better place to start.
     </p>
     <pre>GET <span id="missing-path">/this-page</span> → 404 Not Found</pre>
-    <p><a href="/">← Back home</a></p>
+    <p><a href={withBase('/')}>← Back home</a></p>
   </div>
 </BaseLayout>
 

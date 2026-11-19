@@ -1,5 +1,5 @@
 {
-  "name": "yigit-blog",
+  "name": "ygoc-blog",
   "type": "module",
   "version": "1.0.0",
   "private": true,
@@ -13,7 +13,7 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.0",
+    "@astrojs/markdown-satteri": "0.4.7",
     "@astrojs/sitemap": "^3.0.0",
     "astro": "^7.4.7"
   },

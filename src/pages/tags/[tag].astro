@@ -7,6 +7,7 @@ import {
   slugify,
   type Post,
 } from '../../utils/posts';
+import { withBase } from '../../utils/url';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -31,7 +32,7 @@ const { name, posts } = Astro.props;
   <h1 class="page-title">#{name}</h1>
   <p class="page-sub">
     {posts.length} {posts.length === 1 ? 'post' : 'posts'} ·
-    <a href="/tags">all tags</a>
+    <a href={withBase('/tags')}>all tags</a>
   </p>
 
   <PostList posts={posts} />
