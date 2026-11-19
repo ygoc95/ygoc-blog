@@ -7,8 +7,8 @@ export const SITE = {
   description: 'The personal blog of Yiğit Selçuk Göç.',
   author: 'Yiğit Selçuk Göç',
   github: 'https://github.com/ygoc95',
-  /** Canonical site URL, including the GitHub Pages base path. */
-  url: 'https://ygoc95.github.io/ygoc-blog',
+  /** Canonical site URL. */
+  url: 'https://ygoc-blog.dev',
 } as const;
 
 /** localStorage key for the saved light/dark preference. */

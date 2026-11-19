@@ -4,7 +4,7 @@ A quiet, text-first personal blog: plain Markdown in, static HTML out. Dark by
 default, with a small switch for a warm light theme. No UI framework, no
 database, no analytics, no cookie banner.
 
-Live at <https://ygoc95.github.io/ygoc-blog/>.
+Live at <https://ygoc-blog.dev/>.
 
 ## Stack
 
@@ -36,8 +36,7 @@ npm install
 npm run dev
 ```
 
-The dev server prints a local URL. This project uses the GitHub Pages base path,
-so open <http://localhost:4321/ygoc-blog/>.
+The dev server prints a local URL, normally <http://localhost:4321/>.
 
 | Command           | What it does                                  |
 | ----------------- | --------------------------------------------- |
@@ -76,8 +75,7 @@ Reading time is calculated from the post body, excluding fenced code blocks.
 Drafts are filtered out everywhere, including tag and archive pages.
 
 Images in a post can live in `public/images/` and be referenced with a
-root-relative path such as `/images/example.png`. The Markdown pipeline adds
-the deployment base path automatically.
+root-relative path such as `/images/example.png`.
 
 ## Project structure
 
@@ -98,9 +96,8 @@ public/             Favicon, robots.txt, and post images
 
 1. **Branding** — edit `src/consts.ts`. That controls the header name,
    description, author, GitHub link, and canonical URL.
-2. **Deployment URL** — `site` and `base` in `astro.config.mjs` control the
-   GitHub Pages path. If you attach a custom domain, see
-   [Custom domain](#custom-domain).
+2. **Deployment URL** — `site` in `astro.config.mjs` controls canonical URLs.
+   If you move to another domain, see [Custom domain](#custom-domain).
 3. **GitHub** — set your profile URL in `src/consts.ts` (`SITE.github`).
 4. **Favicon** — replace `public/favicon.svg`.
 5. **Colors and type** — the dark/light palettes and font stacks live at the top
@@ -115,7 +112,7 @@ public/             Favicon, robots.txt, and post images
 ## Deploy
 
 Pushing to `main` builds and deploys the site with GitHub Actions to
-<https://ygoc95.github.io/ygoc-blog/>.
+<https://ygoc-blog.dev/>.
 
 The workflow is `.github/workflows/deploy.yml`. It runs on every push to `main`
 (or manually from the Actions tab), builds with Node 24, and publishes `dist/`
@@ -131,7 +128,15 @@ npm run preview
 
 ### Custom domain
 
-Yes. GitHub Pages supports a custom domain on top of a project site:
+The site is served at <https://ygoc-blog.dev/>. The apex domain is the GitHub
+Pages custom domain, and `www` is a CNAME record pointing to
+`ygoc95.github.io`; GitHub redirects `www` to the apex.
+
+A custom domain serves the site from the root, so `astro.config.mjs` has no
+`base`. Canonical URLs come from `site` there and `SITE.url` in
+`src/consts.ts`; the sitemap URL lives in `public/robots.txt`.
+
+To move to another domain:
 
 1. In the repository, open **Settings → Pages → Custom domain**, enter the
    domain, and save.
@@ -142,14 +147,12 @@ Yes. GitHub Pages supports a custom domain on top of a project site:
      pointing to `ygoc95.github.io`.
 3. Wait for the DNS check, then enable **Enforce HTTPS**. GitHub provisions the
    certificate automatically.
-4. A custom domain serves the site from the root. Remove `base` from
-   `astro.config.mjs`, set `site` to `https://your-domain.example`, set
-   `SITE.url` in `src/consts.ts` to the same URL, and update the sitemap URL in
-   `public/robots.txt`. Push to `main` again.
+4. Set `site` in `astro.config.mjs`, `SITE.url` in `src/consts.ts`, and the
+   sitemap URL in `public/robots.txt` to the new domain. Push to `main`.
 
-The `ygoc95.github.io/ygoc-blog/` URL will redirect to the custom domain. No
-`CNAME` file is needed with a GitHub Actions deployment; GitHub stores the
-custom domain in the Pages settings.
+No `CNAME` file is needed with a GitHub Actions deployment; GitHub stores the
+custom domain in the Pages settings. The default `ygoc95.github.io/ygoc-blog/`
+URL redirects to the custom domain.
 
 ## How the small stuff works
 

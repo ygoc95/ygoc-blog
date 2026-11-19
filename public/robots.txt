@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Sitemap for the deployed GitHub Pages site.
-Sitemap: https://ygoc95.github.io/ygoc-blog/sitemap-index.xml
+# Sitemap for the deployed site.
+Sitemap: https://ygoc-blog.dev/sitemap-index.xml
